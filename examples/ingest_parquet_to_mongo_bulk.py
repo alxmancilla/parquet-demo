@@ -227,12 +227,18 @@ def main(argv: list[str] | None = None) -> int:
                        help='Comma-separated PK field names to use for upsert')
     args = parser.parse_args(argv)
 
+    time_start = time()
+
     pk_fields = args.pk_fields.split(',') if args.pk_fields else None
     bulk_ingest(args.parquet, args.mongo_uri, args.db, args.collection,
                 batch_size=args.batch_size, dry_run=args.dry_run,
                 upsert=args.upsert, pk_fields=pk_fields,
                 max_workers=args.max_workers,
                 max_queue_size=args.max_queue_size)
+    
+    time_end = time()
+    print(f'Total elapsed time: {time_end - time_start:.2f}s')
+    
     return 0
 
 
