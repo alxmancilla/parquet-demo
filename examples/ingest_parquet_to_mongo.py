@@ -120,11 +120,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--dry-run', action='store_true', help='Do not insert; print sample converted documents')
     args = parser.parse_args(argv)
 
-    time_start = time()
+    time_start = time.time()
 
     ingest(args.parquet, args.mongo_uri, args.db, args.collection, batch_size=args.batch_size, dry_run=args.dry_run)
 
-    time_end = time()
+    time_end = time.time()
     print(f'Total elapsed time: {time_end - time_start:.2f}s')
     
     return 0

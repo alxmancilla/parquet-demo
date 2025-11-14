@@ -195,14 +195,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--pk-fields', type=str, default=None, help='Comma-separated PK field names to use for upsert')
     args = parser.parse_args(argv)
 
-    time_start = time()
+    time_start = time.time()
 
     pk_fields = args.pk_fields.split(',') if args.pk_fields else None
     # attach max workers to the function object so the implementation can read it
     setattr(stream_ingest, '__max_workers__', args.max_workers)
     stream_ingest(args.parquet, args.mongo_uri, args.db, args.collection, batch_size=args.batch_size, dry_run=args.dry_run, upsert=args.upsert, pk_fields=pk_fields, row_batch_size=args.row_batch_size)
     
-    time_end = time()
+    time_end = time.time()
     print(f'Total elapsed time: {time_end - time_start:.2f}s')
     
     return 0
